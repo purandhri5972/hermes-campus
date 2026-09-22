@@ -1,5 +1,6 @@
 import { BottomSheet } from '@/components/briefing/BottomSheet';
 import { PressableScale } from '@/components/briefing/PressableScale';
+import { fetchBriefing } from '@/mocks/fetchBriefing';
 import { useQuery } from '@tanstack/react-query';
 import * as Haptics from 'expo-haptics';
 import { useState } from 'react';
@@ -12,7 +13,6 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { fetchBriefing } from '../../mocks/fetchBriefing';
 
 const HERMES_BOUNCE = { stiffness: 200, damping: 12, mass: 0.6 };
 
