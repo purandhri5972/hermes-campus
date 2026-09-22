@@ -3,27 +3,27 @@ import * as Haptics from 'expo-haptics';
 import { AlertCircle, Mic, Send } from 'lucide-react-native';
 import { useCallback, useState } from 'react';
 import {
-    FlatList,
-    KeyboardAvoidingView,
-    Platform,
-    Pressable,
-    Text,
-    TextInput,
-    View,
+  FlatList,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  Text,
+  TextInput,
+  View,
 } from 'react-native';
 import Animated, {
-    useAnimatedStyle,
-    useSharedValue,
-    withSpring,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
 } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import {
-    fetchChatMessages,
-    mockMemoryCount,
-    mockWorkerStatus,
-    type ChatMessage,
-} from '@/mocks/chat';
+  fetchChatMessages,
+  mockMemoryCount,
+  mockWorkerStatus,
+  type ChatMessage,
+} from '../../mocks/chat';
 
 const HERMES_SPRING = { stiffness: 150, damping: 18, mass: 0.8 };
 

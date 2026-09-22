@@ -1,7 +1,9 @@
+import { BottomSheet } from '@/components/briefing/BottomSheet';
 import { PressableScale } from '@/components/briefing/PressableScale';
 import { useQuery } from '@tanstack/react-query';
 import * as Haptics from 'expo-haptics';
-import { Text, View } from 'react-native';
+import { useState } from 'react';
+import { Text, TextInput, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   runOnJS,
@@ -21,6 +23,9 @@ export default function HomeScreen() {
   });
 
   const translateX = useSharedValue(0);
+    const [notificationsOpen, setNotificationsOpen] = useState(false);
+      const [profileOpen, setProfileOpen] = useState(false);
+        const [addEventOpen, setAddEventOpen] = useState(false);
 
   const handleAccept = () => {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
@@ -104,7 +109,9 @@ export default function HomeScreen() {
       <View className="flex-row items-center justify-between px-4 pt-2">
         <Text className="text-slate-50 text-lg font-bold">HERMES CAMPUS</Text>
         <View className="flex-row items-center gap-3">
-          <PressableScale className="w-9 h-9 rounded-full bg-card items-center justify-center border border-border">
+          <PressableScale 
+          onPress={() => setNotificationsOpen(true)}
+          className="w-9 h-9 rounded-full bg-card items-center justify-center border border-border">
             <Text className="text-slate-50">🔔</Text>
             <View className="absolute -top-1 -right-1 bg-amber rounded-full w-4 h-4 items-center justify-center">
               <Text className="text-[10px] text-slate-950 font-bold">
@@ -113,7 +120,9 @@ export default function HomeScreen() {
             </View>
           </PressableScale>
 
-          <PressableScale className="w-9 h-9 rounded-full bg-card border border-primary items-center justify-center">
+          <PressableScale
+          onPress={() => setProfileOpen(true)}
+          className="w-9 h-9 rounded-full bg-card border border-primary items-center justify-center">
             <Text className="text-slate-50 text-xs">
               {data.userName.charAt(0)}
             </Text>
@@ -199,10 +208,81 @@ export default function HomeScreen() {
       </View>
 
       <View className="px-4 pt-4">
-        <PressableScale className="h-12 bg-card border border-border rounded-lg items-center justify-center">
+        <PressableScale
+        onPress={() => setAddEventOpen(true)}
+        className="h-12 bg-card border border-border rounded-lg items-center justify-center">
           <Text className="text-slate-50 font-semibold">+ Quick Add Event</Text>
         </PressableScale>
       </View>
+            <BottomSheet visible={notificationsOpen} onClose={() => setNotificationsOpen(false)}>
+        <Text className="text-slate-50 text-lg font-bold mb-4">Notifications</Text>
+
+        <View className="gap-3">
+          <View className="bg-background rounded-lg p-3 border border-border">
+            <Text className="text-slate-50 text-sm font-semibold">
+              SIH registration closes in 48 hours
+            </Text>
+            <Text className="text-slate-400 text-xs mt-1">2 hours ago</Text>
+          </View>
+
+          <View className="bg-background rounded-lg p-3 border border-border">
+            <Text className="text-slate-50 text-sm font-semibold">
+              Sarah invited you to her hackathon team
+            </Text>
+            <Text className="text-slate-400 text-xs mt-1">5 hours ago</Text>
+          </View>
+        </View>
+      </BottomSheet>
+            <BottomSheet visible={profileOpen} onClose={() => setProfileOpen(false)}>
+        <Text className="text-slate-50 text-lg font-bold mb-1">{data.userName}</Text>
+        <Text className="text-slate-400 text-sm mb-4">alex@college.edu</Text>
+
+        <View className="gap-2">
+          <View className="bg-background rounded-lg p-3 border border-border flex-row items-center justify-between">
+            <Text className="text-slate-50 text-sm">Google Calendar</Text>
+            <Text className="text-emerald text-xs font-semibold">Connected</Text>
+          </View>
+
+          <View className="bg-background rounded-lg p-3 border border-border flex-row items-center justify-between">
+            <Text className="text-slate-50 text-sm">Discord</Text>
+            <Text className="text-emerald text-xs font-semibold">Connected</Text>
+          </View>
+
+          <View className="bg-background rounded-lg p-3 border border-border flex-row items-center justify-between">
+            <Text className="text-slate-50 text-sm">Gmail</Text>
+            <Text className="text-amber text-xs font-semibold">Reconnect</Text>
+          </View>
+        </View>
+      </BottomSheet>
+            <BottomSheet visible={addEventOpen} onClose={() => setAddEventOpen(false)}>
+        <Text className="text-slate-50 text-lg font-bold mb-4">New Event</Text>
+
+        <View className="gap-3">
+          <TextInput
+            placeholder="Event title"
+            placeholderTextColor="#94A3B8"
+            className="bg-background border border-border rounded-lg px-3 h-11 text-slate-50"
+          />
+          <TextInput
+            placeholder="Time (e.g. 3:00 PM)"
+            placeholderTextColor="#94A3B8"
+            className="bg-background border border-border rounded-lg px-3 h-11 text-slate-50"
+          />
+          <TextInput
+            placeholder="Venue"
+            placeholderTextColor="#94A3B8"
+            className="bg-background border border-border rounded-lg px-3 h-11 text-slate-50"
+          />
+
+          <PressableScale
+            haptic="medium"
+            onPress={() => setAddEventOpen(false)}
+            className="h-11 bg-primary rounded-lg items-center justify-center mt-2"
+          >
+            <Text className="text-slate-50 font-semibold">Add Event</Text>
+          </PressableScale>
+        </View>
+      </BottomSheet>
     </SafeAreaView>
   );
 }
